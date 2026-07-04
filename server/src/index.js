@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -21,6 +22,8 @@ app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/profile", require("./routes/profileRoutes"));
 app.use("/api/meetings", require("./routes/meetingRoutes"));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.use("/api/documents", require("./routes/documentRoutes"));
 
 // Socket.io signaling server for WebRTC
 io.on("connection", (socket) => {
